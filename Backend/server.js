@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -9,10 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Home route
 app.get("/", (req, res) => {
   res.send("Vatsalya Backend Running");
 });
 
+// Hospital API
 app.get("/api/hospitals", (req, res) => {
   const sql = "SELECT * FROM hospitals";
 
@@ -28,11 +31,7 @@ app.get("/api/hospitals", (req, res) => {
   });
 });
 
-const port = process.env.PORT || 5000;
-app.get("/", (req, res) => {
-  res.send("Vatsalya Backend Running");
-});
-
+// Render PORT
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
