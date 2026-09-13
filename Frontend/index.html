@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vatsalya — AI Healthcare & Emergency Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║                      CSS                             ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════ -->
+  <header>
+    <div class="logo">
+      <div class="logo-leaf">🌿</div>
+      <div>
+        <div class="logo-name">Vat<span>salya</span></div>
+        <div class="logo-sub" id="logo-sub">AI Healthcare &amp; Emergency Platform</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="lang-toggle" onclick="toggleLang()">हिं / EN</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════ 
+       MAIN
+  ══════════════════════════════════════ -->
+  <main>
+
+    <!-- SOS Bar -->
+    <div class="sos-bar" onclick="alert('Calling 112 — National Emergency Helpline')">
+      <div class="sos-left">
+        <div class="pulse-ring"></div>
+        <div class="sos-info">
+          <h2 id="sos-title">Emergency SOS</h2>
+          <p id="sos-sub">Tap to call national helpline immediately</p>
+        </div>
+      </div>
+      <div class="sos-number">112</div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="hospitals">
+        <span class="tab-icon">🏥</span><span id="tl-hosp">Find Hospital</span>
+      </button>
+      <button class="tab-btn" data-tab="accident">
+        <span class="tab-icon">🚑</span><span id="tl-acc">Accident Help</span>
+      </button>
+      <button class="tab-btn" data-tab="firstaid">
+        <span class="tab-icon">🩹</span><span id="tl-fa">First Aid</span>
+      </button>
+      <button class="tab-btn" data-tab="schemes">
+        <span class="tab-icon">📋</span><span id="tl-sc">Govt. Schemes</span>
+      </button>
+      <button class="tab-btn" data-tab="profile">
+        <span class="tab-icon">👤</span><span id="tl-pr">My Profile</span>
+      </button>
+    </nav>
+
+    <!-- ══ HOSPITALS ══ -->
+    <section id="sec-hospitals" class="section active">
+      <div class="card">
+        <div class="card-title">🔍 <span id="h-title">Find Nearest Hospital / Specialist</span></div>
+        <div class="card-sub" id="h-sub">Search by symptom, specialty, or city name</div>
+        <div class="search-row">
+          <input class="search-input" id="hospital-input" placeholder="Chest pain, Orthopedic, Lucknow…"/>
+          <button class="search-btn" onclick="searchHospitals()">Search</button>
+        </div>
+        <div class="filter-grid">
+          <div class="filter-box">
+            <div class="filter-label">State</div>
+            <select class="filter-control" id="state-select" onchange="selectState(this.value)"></select>
+          </div>
+          <div class="filter-box">
+            <div class="filter-label">City</div>
+            <select class="filter-control" id="city-select" onchange="searchHospitals()"></select>
+          </div>
+          <div class="filter-box">
+            <div class="filter-label">Specialty</div>
+            <select class="filter-control" id="specialty-select" onchange="searchHospitals()">
+              <option value="">All Specialties</option>
+              <option value="cardiac">Cardiology / Heart</option>
+              <option value="ortho">Orthopedic / Bone</option>
+              <option value="neuro">Neurology / Brain</option>
+              <option value="child">Pediatrics / Child</option>
+              <option value="gynae">Gynaecology / Maternity</option>
+              <option value="emergency">Emergency / Trauma</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <div class="filter-label">Affordability</div>
+            <select class="filter-control" id="affordability-select" onchange="searchHospitals()">
+              <option value="">Any Budget</option>
+              <option value="Low">Low / Govt</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High / Private</option>
+            </select>
+          </div>
+        </div>
+        <!-- AI SYMPTOM ASSISTANT -->
+
+<div class="card ai-card">
+
+  <div class="card-title">
+    🤖 AI Symptom Assistant
+  </div>
+
+  <div class="card-sub">
+    Enter symptoms to get category and first-aid guidance
+  </div>
+
+  <div class="search-row">
+
+  <input
+  class="search-input"
+  id="symptom-input"
+  placeholder="Chest pain, fracture, bleeding..."
+/>
+
+<button
+  class="search-btn"
+  onclick="analyzeSymptoms()"
+>
+  Analyze
+</button>
+
+<button
+  class="search-btn"
+  onclick="startVoiceInput()"
+>
+  🎤 Speak
+</button>
+
+<button
+  class="search-btn"
+  onclick="getUserLocation()"
+>
+  📍 Use My Location
+</button>
+
+  </div>
+
+  <div id="ai-result"></div>
+
+  <p class="card-sub" style="margin-top:10px;">
+    This is guidance only, not a medical diagnosis.
+    In emergencies call 112 immediately.
+  </p>
+
+</div>
+
+<!-- HOSPITAL RESULTS -->
+
+<div class="results-count" id="hospital-count"></div>
+
+<div class="hospital-list" id="hospital-results"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">👨‍⚕️ <span id="h-spec-title">Browse by Specialist</span></div>
+        <div class="spec-grid" id="spec-grid"></div>
+      </div>
+    </section>
+
+    <!-- ══ ACCIDENT ══ -->
+    <section id="sec-accident" class="section">
+      <div class="card">
+        <div class="card-title">🚨 <span id="a-title">Accident Assistance Module</span></div>
+        <div class="card-sub" id="a-sub">Select your accident location to get correct emergency contacts</div>
+        <div class="acc-type-row" id="acc-types"></div>
+        <div class="section-label" id="a-emg-label">EMERGENCY CONTACTS</div>
+        <div class="emg-list" id="emg-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🆘 <span id="a-steps-title">Immediate Action Steps</span></div>
+        <div class="steps-list" id="accident-steps"></div>
+      </div>
+    </section>
+
+    <!-- ══ FIRST AID ══ -->
+    <section id="sec-firstaid" class="section">
+      <div class="card">
+        <div class="card-title">🫀 <span id="fa-cpr-title">CPR Guide</span></div>
+        <div class="card-sub" id="fa-cpr-sub">For unconscious victim not breathing — act immediately</div>
+        <div class="info-box danger">
+          <h3>Cardiopulmonary Resuscitation — Step by Step</h3>
+          <p>
+            1. Lay the victim flat on a firm, level surface<br>
+            2. Place the heel of your hand on the centre of the chest<br>
+            3. Push down hard — at least <strong>5–6 cm</strong> depth<br>
+            4. Rate: <strong>100–120 compressions per minute</strong> (Staying Alive beat)<br>
+            5. After every 30 compressions → give <strong>2 rescue breaths</strong><br>
+            6. Tilt head back, lift chin, seal their mouth and blow for 1 second<br>
+            7. Continue cycles until emergency services arrive or person recovers
+          </p>
+        </div>
+        <div class="divider"></div>
+        <div class="card-title">🩸 <span id="fa-bl-title">Bleeding Control</span></div>
+        <div class="steps-list" id="bleeding-steps"></div>
+        <div class="divider"></div>
+        <div class="card-title">🦴 <span id="fa-fr-title">Fracture Stabilization</span></div>
+        <div class="steps-list" id="fracture-steps"></div>
+        <div class="divider"></div>
+        <div class="info-box warn">
+          <h3>⚠️ What NOT to do in accident situations</h3>
+          <ul>
+            <li>Do not give food or water to an unconscious person</li>
+            <li>Do not remove a helmet from a road accident victim</li>
+            <li>Do not move a person with suspected spinal injury</li>
+            <li>Do not leave the victim alone — stay until help arrives</li>
+            <li>Do not apply a tourniquet unless bleeding is life-threatening</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SCHEMES ══ -->
+    <section id="sec-schemes" class="section">
+      <div class="card">
+        <div class="card-title">📋 <span id="sc-title">Government Healthcare Schemes</span></div>
+        <div class="card-sub" id="sc-sub">Central and State welfare programs available to you</div>
+        <div id="scheme-list"></div>
+        <div class="info-box info">
+          <h3>💡 Eligibility Tip</h3>
+          <p>Unsure which scheme you qualify for? Visit your nearest CGHS Wellness Centre or District Hospital with your Aadhaar card and income certificate to check eligibility on the spot.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PROFILE ══ -->
+    <section id="sec-profile" class="section">
+      <div class="success-toast" id="save-toast">
+        ✅ Emergency profile saved. Accessible instantly during emergencies.
+      </div>
+      <div class="card">
+        <div class="card-title">👤 <span id="pr-title">Emergency Health Profile</span></div>
+        <div class="card-sub" id="pr-sub">Fill this once. It could save your life — shown instantly to responders.</div>
+        <div class="profile-grid">
+          <div class="field-group">
+            <label id="pf-name">Full Name</label>
+            <input type="text" id="f-name" placeholder="Rahul Sharma"/>
+          </div>
+          <div class="field-group">
+            <label id="pf-age">Age</label>
+            <input type="number" id="f-age" placeholder="32"/>
+          </div>
+          <div class="field-group">
+            <label id="pf-blood">Blood Group</label>
+            <select id="f-blood">
+              <option value="">Select…</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>O+</option><option>O-</option>
+              <option>AB+</option><option>AB-</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label id="pf-phone">Emergency Contact</label>
+            <input type="tel" id="f-phone" placeholder="+91 98765 43210"/>
+          </div>
+          <div class="field-group full">
+            <label id="pf-allergy">Known Allergies</label>
+            <input type="text" id="f-allergy" placeholder="Penicillin, Dust, Peanuts…"/>
+          </div>
+          <div class="field-group full">
+            <label id="pf-conditions">Existing Medical Conditions</label>
+            <input type="text" id="f-conditions" placeholder="Diabetes, Hypertension, Asthma…"/>
+          </div>
+          <div class="field-group full">
+            <label id="pf-insurance">Ayushman / CGHS / Insurance Card No.</label>
+            <input type="text" id="f-insurance" placeholder="PMJAY-2024-XXXXXXXX"/>
+          </div>
+        </div>
+        <button class="save-btn" onclick="saveProfile()">
+          <span id="save-label">Save Emergency Profile</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>🌿 Vatsalya — Empowering India with Smart Emergency Healthcare</p>
+    <p style="margin-top:6px;font-size:11px;">Always call 112 in life-threatening emergencies. This app provides guidance, not medical advice.</p>
+  </footer>
+
+</div><!-- /app-shell -->
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║                   JAVASCRIPT                        ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<script src="script.js"></script>
+</body>
+</html>

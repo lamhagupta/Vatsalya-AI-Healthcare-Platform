@@ -1,0 +1,9 @@
+Backend/node_modules/
+Backend/.env
+node_modules/
+package.json
+package-lock.json
+.git(1)/
+Backend/backend/
+Backend/README.md
+Frontend/netlify.toml
