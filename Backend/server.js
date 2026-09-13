@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -31,7 +30,6 @@ app.get("/api/hospitals", (req, res) => {
   });
 });
 
-// Render PORT
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
