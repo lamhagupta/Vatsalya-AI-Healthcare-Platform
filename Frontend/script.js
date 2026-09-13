@@ -1,30 +1,5 @@
-const API_URL =
-  "https://vatsalya-ai-healthcare-platform-jlhj.onrender.com/api/hospitals";
 
-let HOSPITALS = EXTENDED_HOSPITALS;
 
-async function loadHospitalsFromBackend() {
-  try {
-    const response = await fetch(API_URL);
-
-    if (!response.ok) {
-      throw new Error("Hospital API failed");
-    }
-
-    const data = await response.json();
-
-    if (Array.isArray(data) && data.length > 0) {
-      HOSPITALS = data;
-      console.log("Hospitals loaded from backend:", HOSPITALS);
-    } else {
-      console.log("Backend empty, using local hospital data");
-    }
-  } catch (error) {
-    console.warn("Backend unavailable, using local data:", error);
-  }
-}
-
-loadHospitalsFromBackend();
 /* ══════════════════════════════════════
    DATA STORE
 ══════════════════════════════════════ */
